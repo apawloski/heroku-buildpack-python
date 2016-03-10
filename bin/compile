@@ -74,7 +74,7 @@ source $BIN_DIR/utils
 source $BIN_DIR/warnings
 
 # Directory Hacks for path consistency.
-APP_DIR='/app'
+APP_DIR='/test_app'
 TMP_APP_DIR=$CACHE_DIR/tmp_app_dir
 
 # Skip these steps for Docker.
