@@ -47,7 +47,7 @@ fi
 
 # If Pip isn't up to date:
 if [ "$FRESH_PYTHON" ] || [[ ! $(pip --version) == *$PIP_VERSION* ]]; then
-  echo "Is pip up to date? FRESH_PYTHON=$FRESH_PYTHON and pip version=$(pip --version) and *PIP_VERSION is *$PIP_VERSION*"
+  echo "I am $(whoami) and my version of pip -- $(which pip) -- is messed up"
   WORKING_DIR=$(pwd)
 
   #bpwatch start prepare_environment
