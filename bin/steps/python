@@ -28,7 +28,10 @@ if [ ! "$SKIP_INSTALL" ]; then
     # Prepare destination directory.
     mkdir -p .heroku/python
 
+#    cp -r /usr/lib64/python2.6/ /app/.heroku/python/include
+    
     curl https://lang-python.s3.amazonaws.com/$STACK/runtimes/$PYTHON_VERSION.tar.gz -s | tar zxv -C .heroku/python &> /dev/null
+    
     if [[ $? != 0 ]] ; then
       puts-warn "Requested runtime ($PYTHON_VERSION) is not available for this stack ($STACK)."
       puts-warn "Aborting.  More info: https://devcenter.heroku.com/articles/python-support"
