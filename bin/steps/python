@@ -64,6 +64,8 @@ if [ "$FRESH_PYTHON" ] || [[ ! $(pip --version) == *$PIP_VERSION* ]]; then
     cd $TMPTARDIR/setuptools-$SETUPTOOLS_VERSION/
     python setup.py install &> /dev/null
     cd $WORKING_DIR
+
+    cp $(which pip) /app/.heroku/python/bin/pip
   #bpwatch stop install_setuptoools
 
 fi
