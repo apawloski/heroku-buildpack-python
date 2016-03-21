@@ -1,13 +1,13 @@
 # Install dependencies with Pip.
 
-
 puts-cmd "pip install -r requirements.txt"
 
 #[ ! "$FRESH_PYTHON" ] && bpwatch start pip_install
 #[ "$FRESH_PYTHON" ] && bpwatch start pip_install_first
 
 set +e
-pip install -r requirements.txt --exists-action=w --src=./.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
+# pip install -r requirements.txt --exists-action=w --src=./.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
+pip install -r requirements.txt --exists-action=w --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
 PIP_STATUS="${PIPESTATUS[0]}"
 set -e
 
