@@ -1,4 +1,6 @@
 # Install dependencies with Pip.
+
+
 puts-cmd "pip install -r requirements.txt"
 
 [ ! "$FRESH_PYTHON" ] && bpwatch start pip_install
@@ -20,7 +22,7 @@ fi
 cp requirements.txt .heroku/python/requirements-declared.txt
 /app/.heroku/python/bin/pip freeze --disable-pip-version-check > .heroku/python/requirements-installed.txt
 
-[ ! "$FRESH_PYTHON" ] && bpwatch stop pip_install
-[ "$FRESH_PYTHON" ] && bpwatch stop pip_install_first
+[ ! "$FRESH_PYTHON" ] # && bpwatch stop pip_install
+[ "$FRESH_PYTHON" ] # && bpwatch stop pip_install_first
 
 echo
