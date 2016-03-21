@@ -41,10 +41,10 @@ SETUPTOOLS_VERSION="19.6"
 export WARNINGS_LOG=$(mktemp)
 export RECOMMENDED_PYTHON_VERSION=$DEFAULT_PYTHON_VERSION
 
-# Setup bpwatch
-export PATH=$PATH:$ROOT_DIR/vendor/bpwatch
+# Setup #bpwatch
+export PATH=$PATH:$ROOT_DIR/vendor/#bpwatch
 LOGPLEX_KEY="t.b90d9d29-5388-4908-9737-b4576af1d4ce"
-export BPWATCH_STORE_PATH=$CACHE_DIR/bpwatch.json
+export BPWATCH_STORE_PATH=$CACHE_DIR/#bpwatch.json
 BUILDPACK_VERSION=v28
 
 # Setup pip-pop (pip-diff)
@@ -61,11 +61,11 @@ unset RECEIVE_DATA RUN_KEY BUILD_INFO DEPLOY LOG_TOKEN DYNO
 unset CYTOKINE_LOG_FILE GEM_PATH
 
 # Setup buildpack instrumentation.
-bpwatch init $LOGPLEX_KEY
-bpwatch build python $BUILDPACK_VERSION $REQUEST_ID
+#bpwatch init $LOGPLEX_KEY
+#bpwatch build python $BUILDPACK_VERSION $REQUEST_ID
 TMP_APP_DIR=$CACHE_DIR/tmp_app_dir
 
-bpwatch start compile
+#bpwatch start compile
 
 # Syntax sugar.
 source $BIN_DIR/utils
@@ -81,19 +81,19 @@ TMP_APP_DIR=$CACHE_DIR/tmp_app_dir
 if [[ ! "$DOCKER_BUILD" ]]; then
 
   # Copy Anvil app dir to temporary storage...
-  bpwatch start anvil_appdir_stage
+  #bpwatch start anvil_appdir_stage
   if [ "$SLUG_ID" ]; then
     mkdir -p $TMP_APP_DIR
     deep-mv $APP_DIR $TMP_APP_DIR
   else
     deep-rm $APP_DIR
   fi
-  bpwatch stop anvil_appdir_stage
+  #bpwatch stop anvil_appdir_stage
 
   # Copy Application code in.
-  bpwatch start appdir_stage
+  #bpwatch start appdir_stage
     deep-cp $BUILD_DIR $APP_DIR
-  bpwatch stop appdir_stage
+  #bpwatch stop appdir_stage
 fi
 
 
@@ -128,9 +128,9 @@ if [[ ! -f Procfile ]]; then
 fi
 
 # Experimental pre_compile hook.
-bpwatch start pre_compile
+#bpwatch start pre_compile
   source $BIN_DIR/steps/hooks/pre_compile
-bpwatch stop pre_compile
+#bpwatch stop pre_compile
 
 # If no requirements.txt file given, assume `setup.py develop` is intended.
 if [ ! -f requirements.txt ]; then
@@ -159,13 +159,13 @@ fi
 mkdir -p $CACHE_DIR
 
 # Purge "old-style" virtualenvs.
-bpwatch start clear_old_venvs
+#bpwatch start clear_old_venvs
   [ -d $CACHE_DIR/$LEGACY_TRIGGER ] && rm -fr $CACHE_DIR/.heroku/bin $CACHE_DIR/.heroku/lib $CACHE_DIR/.heroku/include
   [ -d $CACHE_DIR/$VIRTUALENV_LOC ] && rm -fr $CACHE_DIR/.heroku/venv $CACHE_DIR/.heroku/src
-bpwatch stop clear_old_venvs
+#bpwatch stop clear_old_venvs
 
 # Restore old artifacts from the cache.
-bpwatch start restore_cache
+#bpwatch start restore_cache
     mkdir -p .heroku
 
     cp -R $CACHE_DIR/.heroku/python .heroku/ &> /dev/null || true
@@ -174,7 +174,7 @@ bpwatch start restore_cache
     cp -R $CACHE_DIR/.heroku/vendor .heroku/ &> /dev/null || true
     cp -R $CACHE_DIR/.heroku/venv .heroku/ &> /dev/null || true
 
-bpwatch stop restore_cache
+#bpwatch stop restore_cache
 
 set +e
 # Create set-aside `.heroku` folder.
@@ -226,12 +226,12 @@ cp $ROOT_DIR/vendor/python.gunicorn.sh $GUNICORN_PROFILE_PATH
 
 
 # Experimental post_compile hook.
-bpwatch start post_compile
+#bpwatch start post_compile
   source $BIN_DIR/steps/hooks/post_compile
-bpwatch stop post_compile
+#bpwatch stop post_compile
 
 # Store new artifacts in cache.
-bpwatch start dump_cache
+#bpwatch start dump_cache
 
   rm -rf $CACHE_DIR/.heroku/python
   rm -rf $CACHE_DIR/.heroku/python-version
@@ -246,22 +246,22 @@ bpwatch start dump_cache
   cp -R .heroku/vendor $CACHE_DIR/.heroku/ &> /dev/null || true
   cp -R .heroku/venv $CACHE_DIR/.heroku/ &> /dev/null || true
 
-bpwatch stop dump_cache
+#bpwatch stop dump_cache
 
 # Fin.
 if [[ ! "$DOCKER_BUILD" ]]; then
 
-  bpwatch start appdir_commit
+  #bpwatch start appdir_commit
     deep-rm $ORIG_BUILD_DIR
     deep-mv $BUILD_DIR $ORIG_BUILD_DIR
-  bpwatch stop appdir_commit
+  #bpwatch stop appdir_commit
 
-  bpwatch start anvil_appdir_commit
+  #bpwatch start anvil_appdir_commit
   if [ "$SLUG_ID" ]; then
     deep-mv $TMP_APP_DIR $APP_DIR
   fi
 
-  bpwatch stop anvil_appdir_commit
-  bpwatch stop compile
+  #bpwatch stop anvil_appdir_commit
+  #bpwatch stop compile
 fi
 
