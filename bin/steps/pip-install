@@ -6,7 +6,7 @@ puts-cmd "pip install -r requirements.txt"
 #[ "$FRESH_PYTHON" ] && bpwatch start pip_install_first
 
 set +e
-pip install -vvv -r requirements.txt --exists-action=w -t /tmp/ngap/apps/ruby-web/cache/tmp_app_dir/.heroku/python/lib/python2.6/site-packages/ --src=./.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
+pip install -vvv -r requirements.txt --exists-action=w -t ./.heroku/python/lib/python2.6/site-packages/ --src=./.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
 PIP_STATUS="${PIPESTATUS[0]}"
 set -e
 
