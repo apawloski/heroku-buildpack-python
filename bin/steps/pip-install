@@ -6,8 +6,7 @@ puts-cmd "pip install -r requirements.txt"
 #[ "$FRESH_PYTHON" ] && bpwatch start pip_install_first
 
 set +e
-echo "Here is the path before I call pip! $(env)"
-/app/.heroku/python/bin/pip install -vvv -r requirements.txt --exists-action=w --src=./.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
+pip install -vvv -r requirements.txt --exists-action=w --src=./.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
 PIP_STATUS="${PIPESTATUS[0]}"
 set -e
 
